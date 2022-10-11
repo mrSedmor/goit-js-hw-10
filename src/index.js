@@ -97,7 +97,7 @@ function renderCountryInfo(country) {
     <p class="country-detail"><span class="country-parameter">Capital: </span
     >${country.capital}</p>
     <p class="country-detail"><span class="country-parameter">Population: </span
-    >${country.population}</p>
+    >${country.population.toLocaleString()}</p>
     <p class="country-detail"><span class="country-parameter">Languages: </span
     >${country.languages.join(', ')}</p>`;
 }
