@@ -67,8 +67,10 @@ function clearCountryElems() {
 }
 
 function renderCountries(countries) {
-  // impossible case:
-  // if (countries.length === 0) return;
+  // if (countries.length === 0) {
+  //   Notiflix.Notify.failure('Oops, there is no country with that name');
+  //   return;
+  // }
 
   if (countries.length > 10) {
     Notiflix.Notify.info(
@@ -104,6 +106,7 @@ function renderCountriesList(countries) {
   const countryListItems = countries.map(country => {
     const countryItemElem = document.createElement('li');
     countryItemElem.classList.add('country-item');
+    countryListElem.title = 'Click me!';
     countryItemElem.innerHTML = `
         <img class="country-flag" src="${country.flag}" alt="Flag" width="40">
         <span class="country-name">${country.name}</span>`;
