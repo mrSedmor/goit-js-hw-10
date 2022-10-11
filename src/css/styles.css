@@ -69,3 +69,7 @@ body {
 .country-parameter {
   font-weight: 700;
 }
+
+.country-flag {
+  border: 1px solid #000000;
+}
