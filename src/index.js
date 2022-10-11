@@ -17,9 +17,7 @@ const countryListMap = new WeakMap();
 
 searchInputElem.addEventListener(
   'input',
-  debounce(event => {
-    renderCountries(event.target.value.trim());
-  }, DEBOUNCE_DELAY)
+  debounce(onCountryNameInput, DEBOUNCE_DELAY)
 );
 
 countryListElem.addEventListener('click', event => {
@@ -36,7 +34,9 @@ countryListElem.addEventListener('click', event => {
   renderCountryInfo(country);
 });
 
-function renderCountries(countryName) {
+function onCountryNameInput(event) {
+  const countryName = event.target.value.trim();
+
   if (countryName === '') {
     clearCountryElems();
     return;
@@ -45,33 +45,10 @@ function renderCountries(countryName) {
   fetchCountries(countryName)
     .then(mapContriesFields)
     .finally(clearCountryElems)
-    .then(countries => {
-      // impossible case:
-      // if (countries.length === 0) return;
-
-      if (countries.length > 10) {
-        Notiflix.Notify.info(
-          'Too many matches found. Please enter a more specific name.'
-        );
-        return;
-      }
-
-      if (countries.length > 1) {
-        renderCountriesList(countries);
-        return;
-      }
-
-      // if (countries.length === 1)
-      renderCountryInfo(countries[0]);
-    })
+    .then(renderCountries)
     .catch(error => {
       Notiflix.Notify.failure(error.message);
     });
-}
-
-function clearCountryElems() {
-  countryListElem.innerHTML = '';
-  countryInfoElem.innerHTML = '';
 }
 
 function mapContriesFields(countries) {
@@ -82,6 +59,31 @@ function mapContriesFields(countries) {
     flag: flags.svg,
     languages: Object.values(languages),
   }));
+}
+
+function clearCountryElems() {
+  countryListElem.innerHTML = '';
+  countryInfoElem.innerHTML = '';
+}
+
+function renderCountries(countries) {
+  // impossible case:
+  // if (countries.length === 0) return;
+
+  if (countries.length > 10) {
+    Notiflix.Notify.info(
+      'Too many matches found. Please enter a more specific name.'
+    );
+    return;
+  }
+
+  if (countries.length > 1) {
+    renderCountriesList(countries);
+    return;
+  }
+
+  // if (countries.length === 1)
+  renderCountryInfo(countries[0]);
 }
 
 function renderCountryInfo(country) {
