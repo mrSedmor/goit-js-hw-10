@@ -1,0 +1,12 @@
+h2(class = "country-title")
+  img(class = "country-flag", src = country.flag, alt = "Flag", width = 50)
+  = country.name
+p(class = "country-detail")
+  span(class = "country-parameter") Capital: 
+  = country.capital
+p(class = "country-detail")
+  span(class = "country-parameter") Population: 
+  = country.population
+p(class = "country-detail")
+  span(class = "country-parameter") Languages: 
+  = country.languages.join(', ')
